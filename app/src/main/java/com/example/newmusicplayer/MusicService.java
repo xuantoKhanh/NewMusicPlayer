@@ -35,23 +35,19 @@ public class MusicService extends Service {
             switch (actionName){
                 case ACTION_PLAY:
                     if (actionPlaying != null) {
-
                         actionPlaying.playClicked();
                     }
                     break;
                 case ACTION_PREV:
                     if (actionPlaying != null) {
-
                         actionPlaying.prevClicked();
                     }
                     break;
                 case ACTION_NEXT:
                     if (actionPlaying != null) {
-
                         actionPlaying.nextClicked();
                     }
                     break;
-
             }
         }
 

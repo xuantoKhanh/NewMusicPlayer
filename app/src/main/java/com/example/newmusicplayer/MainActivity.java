@@ -4,6 +4,7 @@ package com.example.newmusicplayer;
 import static com.example.newmusicplayer.ApplicationClass.ACTION_NEXT;
 import static com.example.newmusicplayer.ApplicationClass.ACTION_PLAY;
 import static com.example.newmusicplayer.ApplicationClass.ACTION_PREV;
+import static com.example.newmusicplayer.ApplicationClass.CHANNEL_ID_1;
 import static com.example.newmusicplayer.ApplicationClass.CHANNEL_ID_2;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,6 +18,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.media.session.MediaSession;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -40,6 +42,7 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
     MusicService musicService;
     MediaSessionCompat mediaSession;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
         play = findViewById(R.id.play);
         title = findViewById(R.id.titleSongs);
         Log.e("Playing", isPlaying + " ");
-
         mediaSession = new MediaSessionCompat(this, "PlayerAudio");
 
 
@@ -191,7 +193,8 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
 
         Bitmap picture = BitmapFactory.decodeResource(getResources(),
                 trackFilesArrayList.get(position).getThumbnail());
-        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
+
+        Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_1)
                 .setSmallIcon(trackFilesArrayList.get(position).getThumbnail())
                 .setLargeIcon(picture)
                 .setContentTitle(trackFilesArrayList.get(position).getTitle())
@@ -199,12 +202,14 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
                 .addAction(R.drawable.ic_previous, "Previous", prevPendingIntent)
                 .addAction(playPauseBtn, "Play", playPendingIntent)
                 .addAction(R.drawable.ic_next, "Next", nextPendingIntent)
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                        .setMediaSession(mediaSession.getSessionToken()))
+//                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
+//                        .setMediaSession(mediaSession.getSessionToken()))
+
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setContentIntent(contentIntent)
                 .setOnlyAlertOnce(true)
                 .build();
+
 
         NotificationManager notificationManager = (NotificationManager)
                 getSystemService(NOTIFICATION_SERVICE);
