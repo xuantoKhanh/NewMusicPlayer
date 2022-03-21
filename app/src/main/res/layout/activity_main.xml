@@ -32,12 +32,13 @@
             android:id="@+id/previous"
             android:layout_margin="20dp"
             android:src="@drawable/ic_previous"/>
+
         <ImageView
-            android:layout_width="30dp"
-            android:layout_height="30dp"
             android:id="@+id/play"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
             android:layout_margin="20dp"
-            android:src="@drawable/ic_play"/>
+            android:src="@drawable/ic_play" />
         <ImageView
             android:layout_width="30dp"
             android:layout_height="30dp"

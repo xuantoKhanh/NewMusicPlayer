@@ -3,6 +3,12 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/drawable/ic_next.xml" value="0.2165" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/drawable/ic_pause.xml" value="0.2165" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/drawable/ic_play.xml" value="0.2165" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/drawable/ic_previous.xml" value="0.1515" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.2203125" />
+        <entry key="..\:/Users/Admin/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/layout/layout_custom_notification.xml" value="0.19427083333333334" />
         <entry key="..\:/Users/Dell/AndroidStudioProjects/NewMusicPlayer/app/src/main/res/layout/activity_main.xml" value="0.21" />
       </map>
     </option>

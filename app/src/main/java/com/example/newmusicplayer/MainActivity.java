@@ -24,6 +24,7 @@ import android.support.v4.media.session.MediaSessionCompat;
 import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RemoteViews;
 import android.widget.TextView;
 
 import java.nio.channels.spi.AbstractSelectionKey;
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
     boolean isPlaying = false;
     MusicService musicService;
     MediaSessionCompat mediaSession;
+    RemoteViews remoteViews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,10 +140,8 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
         }
         title.setText(trackFilesArrayList.get(position).getTitle());
         if(!isPlaying){
-
             showNotification(R.drawable.ic_pause);
         }else{
-
             showNotification(R.drawable.ic_play);
         }
 
@@ -153,6 +153,7 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
             isPlaying   = true;
             play.setImageResource(R.drawable.ic_pause);
             showNotification(R.drawable.ic_pause);
+
         }else{
             isPlaying   = false;
             play.setImageResource(R.drawable.ic_play);
@@ -176,31 +177,48 @@ public class MainActivity extends AppCompatActivity implements ActionPlaying, Se
         Log.e("Disconnected", musicService + "");
     }
     public void showNotification(int playPauseBtn){
+
         Intent intent = new Intent(this, MainActivity.class);
         PendingIntent contentIntent = PendingIntent.getActivity(this,
                 0, intent, 0);
+
         Intent prevIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PREV);
         PendingIntent prevPendingIntent = PendingIntent.getBroadcast(this, 0,
                 prevIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Intent nextIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_NEXT);
         PendingIntent nextPendingIntent = PendingIntent.getBroadcast(this, 0,
                 nextIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
         Intent playIntent = new Intent(this, NotificationReceiver.class).setAction(ACTION_PLAY);
         PendingIntent playPendingIntent = PendingIntent.getBroadcast(this, 0,
                 playIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
+        RemoteViews remoteViews = new RemoteViews(getPackageName(), R.layout.layout_custom_notification);
+        remoteViews.setTextViewText(R.id.tv_title_song, trackFilesArrayList.get(position).getTitle());
+        remoteViews.setTextViewText(R.id.tv_single_song, trackFilesArrayList.get(position).getSinger());
+
+        remoteViews.setOnClickPendingIntent(R.id.img_play_or_pause, playPendingIntent);
+
+
+        remoteViews.setOnClickPendingIntent(R.id.img_next, nextPendingIntent);
+
+        remoteViews.setOnClickPendingIntent(R.id.img_previous, prevPendingIntent);
+
         Bitmap picture = BitmapFactory.decodeResource(getResources(),
                 trackFilesArrayList.get(position).getThumbnail());
+
         Notification notification = new NotificationCompat.Builder(this, CHANNEL_ID_2)
                 .setSmallIcon(trackFilesArrayList.get(position).getThumbnail())
                 .setLargeIcon(picture)
                 .setContentTitle(trackFilesArrayList.get(position).getTitle())
                 .setContentText(trackFilesArrayList.get(position).getSinger())
-                .addAction(R.drawable.ic_previous, "Previous", prevPendingIntent)
-                .addAction(playPauseBtn, "Play", playPendingIntent)
-                .addAction(R.drawable.ic_next, "Next", nextPendingIntent)
-                .setStyle(new androidx.media.app.NotificationCompat.MediaStyle()
-                        .setMediaSession(mediaSession.getSessionToken()))
+                .setCustomContentView(remoteViews)
+//                .addAction(R.drawable.ic_previous, "Previous", prevPendingIntent)
+//                .addAction(playPauseBtn, "Play", playPendingIntent)
+//                .addAction(R.drawable.ic_next, "Next", nextPendingIntent)
+                //.setStyle(new androidx.media.app.NotificationCompat.MediaStyle())
+//                        .setMediaSession(mediaSession.getSessionToken()))
                 .setPriority(NotificationCompat.PRIORITY_LOW)
                 .setContentIntent(contentIntent)
                 .setOnlyAlertOnce(true)
